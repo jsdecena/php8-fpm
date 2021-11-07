@@ -4,6 +4,7 @@ LABEL Maintainer="Jeff Simons Decena <jeff.decena@yahoo.com>" \
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
+    software-properties-common \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -22,20 +23,21 @@ RUN apt-get update && apt-get install -y \
     postgresql-contrib \
     libpq-dev \
     libonig-dev \
-    libssh2-1 \
-    gcc make libssh2-1-dev \
     zlib1g-dev \
     libzip-dev \
     libcurl4-openssl-dev \
     pkg-config \
-    libssl-dev
+    libssl-dev \
+    libssh2-1-dev \
+    libssh2-1 \
+    && pecl install ssh2-1.3.1 \
+    && docker-php-ext-enable ssh2
+
+RUN touch /usr/local/etc/php/conf.d/ssh2.ini
+
+RUN bash -c "echo extension=ssh2.so > /usr/local/etc/php/conf.d/ssh2.ini"
 
 RUN pecl config-set php_ini /etc/php.ini
-
-RUN curl http://pecl.php.net/get/ssh2-1.2.tgz -o ssh2.tgz && \
-    pecl install ssh2 ssh2.tgz && \
-    docker-php-ext-enable ssh2 && \
-    rm -rf ssh2.tgz
 
 RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl
 
