@@ -33,10 +33,6 @@ RUN apt-get update && apt-get install -y \
     && pecl install ssh2-1.3.1 \
     && docker-php-ext-enable ssh2
 
-RUN touch /usr/local/etc/php/conf.d/ssh2.ini
-
-RUN bash -c "echo extension=ssh2.so > /usr/local/etc/php/conf.d/ssh2.ini"
-
 RUN pecl config-set php_ini /etc/php.ini
 
 RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl
