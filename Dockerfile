@@ -36,8 +36,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN pecl config-set php_ini /etc/php.ini
 
-RUN docker-php-ext-configure gd --with-jpeg && \
-    docker-php-ext-install -j$(nproc) intl simplexml soap pdo pdo_mysql pdo_pgsql zip mbstring exif pcntl gd bcmath sockets
+RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl gd bcmath sockets
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
