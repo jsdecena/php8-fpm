@@ -36,12 +36,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN pecl config-set php_ini /etc/php.ini
 
-RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl
+RUN docker-php-ext-configure gd --with-jpeg && \
+    docker-php-ext-install -j$(nproc) intl simplexml soap gd pdo pdo_mysql pdo_pgsql zip mbstring exif pcntl bcmath sockets
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN docker-php-ext-install bcmath sockets
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
