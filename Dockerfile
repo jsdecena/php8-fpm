@@ -3,8 +3,7 @@ LABEL Maintainer="Jeff Simons Decena <jeff.decena@yahoo.com>" \
       Description="Minimal PHP 8.0 with FPM"
 
 # Install dependencies
-RUN apt-get update && apt-get update 
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     software-properties-common \
     build-essential \
     libpng-dev \
@@ -34,6 +33,8 @@ RUN apt-get install -y \
     libssh2-1 \
     && pecl install ssh2-1.3.1 \
     && docker-php-ext-enable ssh2
+
+RUN apt-get upgrade
 
 RUN pecl config-set php_ini /etc/php.ini
 
