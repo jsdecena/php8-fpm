@@ -3,7 +3,8 @@ LABEL Maintainer="Jeff Simons Decena <jeff.decena@yahoo.com>" \
       Description="Minimal PHP 8.0 with FPM"
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get update 
+RUN apt-get install -y \
     software-properties-common \
     build-essential \
     libpng-dev \
