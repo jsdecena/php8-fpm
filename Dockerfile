@@ -1,6 +1,6 @@
 FROM php:8.1.0-fpm
 LABEL Maintainer="Jeff Simons Decena <jeff.decena@yahoo.com>" \
-      Description="Minimal PHP 8.0 with FPM"
+      Description="Minimal PHP 8 with FPM"
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
