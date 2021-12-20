@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y \
     && pecl install ssh2-1.3.1 \
     && docker-php-ext-enable ssh2
 
-RUN apt-get upgrade
+RUN apt-get upgrade -y && apt autoremove -y
 
 RUN pecl config-set php_ini /etc/php.ini
 
