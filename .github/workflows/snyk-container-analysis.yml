@@ -29,7 +29,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Build a Docker image
-      run: docker build -t jsdecena/php8-fpm:latest .
+      run: docker build -t jsdecena/php8-fpm .
     
     - name: Run Snyk to check Docker image for vulnerabilities
       # Snyk can be used to break the build when it detects vulnerabilities.
@@ -42,7 +42,7 @@ jobs:
         # or you can signup for free at https://snyk.io/login
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        image: jsdecena/php8-fpm:latest
+        image: jsdecena/php8-fpm
         args: --file=Dockerfile
     
     - name: Upload result to GitHub Code Scanning
@@ -60,7 +60,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
-        images: jsdecena/php8-fpm:latest
+        images: jsdecena/php8-fpm
     
     - name: Build and push Docker image
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
