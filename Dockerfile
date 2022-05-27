@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.1.0alpha3-fpm
 LABEL Maintainer="Jeff Simons Decena <jeff.decena@yahoo.com>" \
       Description="Minimal PHP 8 with FPM"
 
