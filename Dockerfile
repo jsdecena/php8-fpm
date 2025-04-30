@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libssh2-1-dev \
     libssh2-1 \
+    libicu-dev \
     && pecl install ssh2-1.3.1 \
     && docker-php-ext-enable ssh2
 
@@ -38,7 +39,7 @@ RUN apt-get upgrade -y && apt autoremove -y
 
 RUN pecl config-set php_ini /etc/php.ini
 
-RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl gd bcmath sockets
+RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl gd bcmath sockets intl
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
