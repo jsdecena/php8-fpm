@@ -39,7 +39,7 @@ RUN apt-get upgrade -y && apt autoremove -y
 
 RUN pecl config-set php_ini /etc/php.ini
 
-RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl gd bcmath sockets intl
+RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl gd bcmath sockets intl mysqli
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
