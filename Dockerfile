@@ -4,12 +4,17 @@ LABEL Maintainer="Jeff Simons Decena <jeff.decena@yahoo.com>" \
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    software-properties-common \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libwebp-dev \
+    libxrender1 \
+    libfontconfig1 \
+    libx11-6 \
+    libxext6 \
+    fontconfig \
     locales \
     zip \
     jpegoptim \
@@ -20,7 +25,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    postgresql \ 
+    postgresql \
     postgresql-contrib \
     libpq-dev \
     libonig-dev \
@@ -39,7 +44,10 @@ RUN apt-get upgrade -y && apt autoremove -y
 
 RUN pecl config-set php_ini /etc/php.ini
 
-RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl gd bcmath sockets intl mysqli
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j"$(nproc)" pdo pdo_mysql pdo_pgsql gd zip mbstring exif pcntl bcmath sockets intl mysqli \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
