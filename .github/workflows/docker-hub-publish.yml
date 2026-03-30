@@ -1,0 +1,55 @@
+# Push image with supply-chain attestations (SLSA build provenance + SBOM).
+# Docker Scout / policies flag images built with plain "docker build && docker push".
+# Requires: repository secrets DOCKER_USERNAME and DOCKER_TOKEN.
+# See: https://docs.docker.com/build/ci/github-actions/attestations/
+
+name: Docker Hub (attestations)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+env:
+  IMAGE_NAME: jsdecena/php8-fpm
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # Forks do not have your Docker Hub secrets
+    if: github.event.repository.fork == false
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/master' }}
+            type=sha
+
+      - name: Build and push (provenance + SBOM)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true

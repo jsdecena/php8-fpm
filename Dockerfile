@@ -90,6 +90,9 @@ RUN apt-get update \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Default non-root user (PHP-FPM pool already uses www-data)
+USER www-data
+
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
